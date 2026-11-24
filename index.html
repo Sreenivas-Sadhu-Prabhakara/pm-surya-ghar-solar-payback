@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'">
+  <title>Rooftop solar payback calculator for Indian homes · Open MSME</title>
+  <meta name="description" content="Turn an electricity bill into a system size, annual generation, the indicative PM Surya Ghar subsidy, net cost and payback period — with a year-by-year cashflow. Free for homeowners and rooftop solar installers in India.">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="Rooftop solar payback calculator for Indian homes · Open MSME">
+  <meta property="og:description" content="Bill to kW to annual units to subsidy to payback — an indicative rooftop solar estimate with a transparent year-by-year cashflow.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/accent.css">
+  <script src="assets/theme-init.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">
+        <span class="dot"></span><b>Open MSME</b><span class="tag">solar payback</span>
+      </a>
+      <span class="sp"></span>
+      <a class="home" href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a>
+      <button class="themer" data-themer type="button">Theme</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow">Rooftop solar &amp; field services · India</div>
+        <h1>Rooftop solar payback calculator for Indian homes</h1>
+        <p class="lede">Turn a monthly electricity bill into a system size, annual units, the indicative subsidy, what you actually pay and how long it takes to pay you back — for homeowners deciding, and installers answering the first question every lead asks.</p>
+        <div class="who">
+          <span class="pill">Homeowners</span>
+          <span class="pill">Rooftop solar installers</span>
+          <span class="pill reg">PM Surya Ghar · DISCOM net metering</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="cols calc">
+        <section class="card">
+          <h2>Inputs</h2>
+
+          <div class="field">
+            <label>What do you know about your consumption?</label>
+            <div class="seg" role="group" aria-label="Consumption basis">
+              <button type="button" data-basis="bill" aria-pressed="true">Monthly bill</button>
+              <button type="button" data-basis="units" aria-pressed="false">Monthly units</button>
+            </div>
+          </div>
+
+          <div class="field" id="f-bill">
+            <label for="bill">Monthly electricity bill</label>
+            <div class="inp has-pre">
+              <span class="pre">₹</span>
+              <input type="number" id="bill" min="0" step="any" inputmode="decimal" value="3000">
+            </div>
+          </div>
+
+          <div class="field" id="f-units" hidden>
+            <label for="units">Monthly units consumed</label>
+            <div class="inp has-suf">
+              <input type="number" id="units" min="0" step="any" inputmode="decimal" value="375">
+              <span class="suf">kWh</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="tariff">Your tariff <span class="hint">the rate your own slab actually charges</span></label>
+            <div class="inp has-pre has-suf">
+              <span class="pre">₹</span>
+              <input type="number" id="tariff" min="0" step="any" inputmode="decimal" value="8">
+              <span class="suf">/kWh</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>System size</label>
+            <div class="seg" role="group" aria-label="System size mode">
+              <button type="button" data-sizemode="auto" aria-pressed="true">Size it for me</button>
+              <button type="button" data-sizemode="manual" aria-pressed="false">I know the kW</button>
+            </div>
+          </div>
+
+          <div class="field" id="f-size" hidden>
+            <label for="size">System size</label>
+            <div class="inp has-suf">
+              <input type="number" id="size" min="0" step="0.5" inputmode="decimal" value="3">
+              <span class="suf">kW</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="yield">Specific yield <span class="hint">units a year from each kW installed — it varies by location, roof tilt and shading</span></label>
+            <div class="inp has-suf">
+              <input type="number" id="yield" min="0" step="any" inputmode="decimal" value="1400">
+              <span class="suf">kWh/kWp</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Sun at your roof <span class="hint">a starting point you can edit</span></label>
+            <div class="seg" role="group" aria-label="Specific yield presets">
+              <button type="button" data-yield="1250" aria-pressed="false">Shaded 1,250</button>
+              <button type="button" data-yield="1400" aria-pressed="true">Typical 1,400</button>
+              <button type="button" data-yield="1550" aria-pressed="false">Clear 1,550</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="cost">Installed cost <span class="hint">before subsidy — use your installer's quote</span></label>
+            <div class="inp has-pre has-suf">
+              <span class="pre">₹</span>
+              <input type="number" id="cost" min="0" step="any" inputmode="decimal" value="60000">
+              <span class="suf">/kW</span>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="selfuse">Used at home <span class="hint">daytime share</span></label>
+              <div class="inp has-suf">
+                <input type="number" id="selfuse" min="0" max="100" step="any" inputmode="decimal" value="65">
+                <span class="suf">%</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="export">Export credit</label>
+              <div class="inp has-pre has-suf">
+                <span class="pre">₹</span>
+                <input type="number" id="export" min="0" step="any" inputmode="decimal" value="2.5">
+                <span class="suf">/kWh</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Subsidy</label>
+            <div class="seg" role="group" aria-label="Subsidy basis">
+              <button type="button" data-subsidy="scheme" aria-pressed="true">Scheme slab (indicative)</button>
+              <button type="button" data-subsidy="custom" aria-pressed="false">Enter my own</button>
+            </div>
+          </div>
+
+          <div class="field" id="f-topup">
+            <label for="topup">State or DISCOM top-up <span class="hint">only if your state adds one — no state table is shipped</span></label>
+            <div class="inp has-pre">
+              <span class="pre">₹</span>
+              <input type="number" id="topup" min="0" step="any" inputmode="decimal" value="0">
+            </div>
+          </div>
+
+          <div class="field" id="f-custom" hidden>
+            <label for="custom-subsidy">Subsidy you have been sanctioned</label>
+            <div class="inp has-pre">
+              <span class="pre">₹</span>
+              <input type="number" id="custom-subsidy" min="0" step="any" inputmode="decimal" value="78000">
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="degrade">Panel degradation</label>
+              <div class="inp has-suf">
+                <input type="number" id="degrade" min="0" max="20" step="any" inputmode="decimal" value="0.5">
+                <span class="suf">%/yr</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="escalate">Tariff rise</label>
+              <div class="inp has-suf">
+                <input type="number" id="escalate" min="0" max="25" step="any" inputmode="decimal" value="3">
+                <span class="suf">%/yr</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="om">Cleaning &amp; upkeep</label>
+              <div class="inp has-pre has-suf">
+                <span class="pre">₹</span>
+                <input type="number" id="om" min="0" step="any" inputmode="decimal" value="1500">
+                <span class="suf">/yr</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="years">Years to model</label>
+              <div class="inp has-suf">
+                <input type="number" id="years" min="1" max="40" step="1" inputmode="numeric" value="25">
+                <span class="suf">yr</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card sticky">
+          <h2>Result</h2>
+          <div class="result-primary">
+            <div class="k">Payback period</div>
+            <div class="v" id="payback-main">—</div>
+            <div class="sub" id="payback-sub">—</div>
+          </div>
+
+          <table class="breakdown">
+            <thead>
+              <tr><th>Year 1 energy &amp; savings</th><th class="num">Amount</th></tr>
+            </thead>
+            <tbody>
+              <tr><td id="r-size-label">System size</td><td class="num" id="r-size">—</td></tr>
+              <tr><td>Annual generation</td><td class="num" id="r-gen">—</td></tr>
+              <tr class="sub"><td>— used at home</td><td class="num" id="r-self">—</td></tr>
+              <tr class="sub"><td>— exported to the grid</td><td class="num" id="r-export">—</td></tr>
+              <tr><td>Bill saving at your tariff</td><td class="num" id="r-billsave">—</td></tr>
+              <tr><td>Export credit</td><td class="num" id="r-exportcredit">—</td></tr>
+              <tr><td>Cleaning &amp; upkeep</td><td class="num" id="r-om">—</td></tr>
+              <tr class="total"><td>Net saving, year 1</td><td class="num" id="r-annual">—</td></tr>
+            </tbody>
+          </table>
+
+          <table class="breakdown">
+            <thead>
+              <tr><th>What you pay</th><th class="num">Amount</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Installed cost before subsidy</td><td class="num" id="r-gross">—</td></tr>
+              <tr class="sub"><td id="r-subsidy-label">Scheme assistance (indicative)</td><td class="num" id="r-subsidy">—</td></tr>
+              <tr class="sub"><td>State or DISCOM top-up</td><td class="num" id="r-topup">—</td></tr>
+              <tr class="total"><td>You pay after subsidy</td><td class="num" id="r-net">—</td></tr>
+            </tbody>
+          </table>
+
+          <div class="btnrow">
+            <button class="btn ghost" id="print" type="button">Print / Save PDF</button>
+            <button class="btn ghost" id="reset" type="button">Reset</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="card">
+        <h2 id="cf-title">Year-by-year cashflow</h2>
+        <p class="assumptions" id="cf-note">Generation fades a little each year, your retail tariff climbs, and the export rate is held flat. The net position starts at what you paid and turns positive the year the system has earned it back.</p>
+        <table class="breakdown">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th class="num">Units</th>
+              <th class="num">Saving ₹</th>
+              <th class="num">Net position ₹</th>
+            </tr>
+          </thead>
+          <tbody id="cf-body"></tbody>
+          <tfoot>
+            <tr class="total">
+              <td id="cf-total-label">Total</td>
+              <td class="num" id="cf-total-units">—</td>
+              <td class="num" id="cf-total-saving">—</td>
+              <td class="num" id="cf-total-net">—</td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+
+      <section class="prose">
+        <h2>How it works</h2>
+        <p>The calculator walks the same five steps an honest installer walks, and shows its working at every step.</p>
+        <p><strong>1. Units, not rupees.</strong> A bill is turned into units at the rate you pay: <code>monthly bill ÷ tariff × 12</code> gives your annual consumption. If you already know your meter reading, enter units instead and the tariff is used only for the saving.</p>
+        <p><strong>2. Size.</strong> A system that covers a year's consumption needs <code>annual units ÷ specific yield</code> kilowatts, rounded to the nearest half kilowatt. Specific yield is how many units a year each installed kilowatt gives you — it is the one number that genuinely varies by location, roof tilt and shading, so it is yours to set.</p>
+        <p><strong>3. Generation, then the split.</strong> <code>size × specific yield</code> is the year's units. The share you use while the sun is up offsets units you would have bought at your own tariff; the rest is exported for whatever your DISCOM credits. Units used at home can never exceed what your home actually uses, so an oversized system simply exports more.</p>
+        <p><strong>4. What you pay.</strong> <code>size × cost per kW</code> is the installed cost. The indicative scheme assistance for that size is subtracted (plus any state top-up you enter), never for more than the system costs, leaving your net cost.</p>
+        <p><strong>5. Payback.</strong> <code>net cost ÷ year-1 net saving</code> is the simple payback. The cashflow table is the better answer: it ages the panels, escalates your tariff, charges upkeep every year, and reports the year your cumulative saving overtakes what you paid. If it never does, it says so — it does not print a number.</p>
+
+        <details class="assumptions">
+          <summary>Assumptions &amp; rates</summary>
+          <p><strong>Subsidy slabs — indicative, not guaranteed.</strong> Central financial assistance for residential rooftop solar under the <strong>PM Surya Ghar Muft Bijli Yojana</strong> (Ministry of New and Renewable Energy, Government of India) is applied as: <code>₹30,000 per kW</code> for the first 2 kW, <code>₹18,000 per kW</code> for the third kW, and a cumulative ceiling of <code>₹78,000</code> — so 1 kW → ₹30,000, 2 kW → ₹60,000, 3 kW → ₹78,000, and anything above 3 kW still → ₹78,000. These figures are published rates as understood in November 2026 and are held in one place in the code, labelled indicative. <strong>Verify them on the official portal, <code>pmsuryaghar.gov.in</code>, before relying on any of it</strong>, and switch the subsidy input to “Enter my own” to use the figure actually sanctioned to you. Some sources describe the same assistance as a percentage of a benchmark cost rather than a flat per-kW rate; where the two framings disagree, the portal wins.</p>
+          <p><strong>Figures deliberately not shipped.</strong> No table of state or DISCOM top-ups is built in — they are state-specific, revised often, and could not be sourced confidently enough to put on your screen, so there is a field for you to enter yours. Additional assistance for special-category states and union territories is not modelled. Neither is the separate group-housing-society and resident-welfare-association stream for common facilities, which has its own per-kW rate and ceiling. None of these are zero in reality; they are simply not ours to guess.</p>
+          <p><strong>Specific yield</strong> defaults to <code>1,400 kWh per kWp per year</code> with presets at 1,250 and 1,550. Most Indian rooftops land somewhere in that band, but a shaded, dusty or badly oriented roof can fall well below it. Use a figure from a site visit if you have one.</p>
+          <p><strong>Installed cost</strong> defaults to <code>₹60,000 per kW</code> purely as a placeholder for the small-system market. It is not a price we offer or verify — replace it with a real quote.</p>
+          <p><strong>Cashflow.</strong> Consumption is held flat across the years. Generation falls by the degradation percentage, compounding (<code>(1 − degradation)^(year − 1)</code>). Your retail tariff rises by the escalation percentage, compounding; the <strong>export credit rate is held flat</strong>, because feed-in and banking rates are set by the DISCOM and are not indexed to retail tariffs. Upkeep is charged every year. Nothing is discounted to present value, no loan or interest is modelled, and no inverter replacement is included — a real inverter will likely need replacing inside 25 years.</p>
+          <p><strong>Guards.</strong> A zero tariff cannot be divided into a bill, so that reads as zero units rather than an error. A zero-consumption or zero-yield input gives a zero-size system, not a division by zero. Self-consumption is clamped to 0–100% and then to your actual consumption. Subsidy never exceeds the installed cost. If the yearly saving is zero or negative the payback is reported as never reached — no number, no infinity.</p>
+        </details>
+
+        <div class="note">This is an indicative estimate, not a quotation and not a subsidy sanction. Actual generation depends on your site — irradiance, shading, roof orientation and tilt, dust, temperature and inverter losses — and what you are actually paid for exported units depends on your DISCOM's net-metering, net-billing or banking rules, which differ by state and by connection. Subsidy slabs change and are state-dependent. Confirm the scheme position on <code>pmsuryaghar.gov.in</code> and get a written quotation from a registered vendor before committing money.</div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <span>Open MSME · open-source tool for MSMEs in India &amp; the Philippines · MIT</span>
+      <span><a href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a></span>
+    </div>
+  </footer>
+
+  <script src="assets/engine.js"></script>
+  <script src="assets/ui.js"></script>
+  <script src="assets/calc.js"></script>
+</body>
+</html>
